@@ -441,6 +441,123 @@
   .footer-socials a { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg3); text-decoration: none; transition: color .2s; }
   .footer-socials a:hover { color: var(--accent); }
 
+  /* ── SERVICES ── */
+  .services-section { background: var(--bg); }
+  .services-header { margin-bottom: 3.5rem; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .service-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 2rem 1.75rem;
+    position: relative; overflow: hidden;
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+    cursor: default;
+  }
+  .service-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212,145,74,.35);
+    box-shadow: 0 12px 32px rgba(0,0,0,.35);
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--card-accent, var(--accent)), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    background: rgba(240,237,230,.05);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.25rem;
+    transition: background .25s;
+  }
+  .service-card:hover .service-icon { background: rgba(212,145,74,.12); }
+
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.35rem; letter-spacing: .06em;
+    color: var(--fg); margin-bottom: .5rem;
+  }
+  .service-desc {
+    font-size: .83rem; color: var(--fg2);
+    line-height: 1.7; margin-bottom: 1.25rem;
+  }
+
+  /* Sub-platform tabs inside Social Media card */
+  .service-platforms { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+  .platform-btn {
+    font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: .3rem .75rem; border-radius: 3px;
+    border: 1px solid var(--border); color: var(--fg3);
+    background: none; cursor: pointer; transition: .2s;
+  }
+  .platform-btn.active, .platform-btn:hover {
+    border-color: var(--accent); color: var(--accent); background: rgba(212,145,74,.08);
+  }
+  .platform-details { display: none; }
+  .platform-details.active { display: block; }
+
+  /* Trek table accordion */
+  .trek-toggle {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--accent3); background: rgba(74,212,154,.08);
+    border: 1px solid rgba(74,212,154,.25); border-radius: 4px;
+    padding: .4rem .9rem; cursor: pointer; transition: .2s;
+    margin-bottom: .75rem;
+  }
+  .trek-toggle:hover { background: rgba(74,212,154,.15); }
+  .trek-toggle .arrow { transition: transform .3s; }
+  .trek-toggle.open .arrow { transform: rotate(180deg); }
+
+  .trek-table-wrap {
+    max-height: 0; overflow: hidden;
+    transition: max-height .5s ease;
+  }
+  .trek-table-wrap.open { max-height: 520px; overflow-y: auto; }
+
+  .trek-table {
+    width: 100%; border-collapse: collapse;
+    font-size: .75rem;
+  }
+  .trek-table th {
+    font-size: .65rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--fg3); padding: .5rem .6rem; text-align: left;
+    border-bottom: 1px solid var(--border); position: sticky; top: 0;
+    background: var(--bg3);
+  }
+  .trek-table td {
+    padding: .45rem .6rem; color: var(--fg2); line-height: 1.4;
+    border-bottom: 1px solid rgba(240,237,230,.04);
+  }
+  .trek-table tr:hover td { background: rgba(240,237,230,.03); color: var(--fg); }
+  .trek-table td:nth-child(3) { color: var(--accent3); font-weight: 600; }
+
+  .service-bullets { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+  .service-bullets li {
+    display: flex; align-items: flex-start; gap: .6rem;
+    font-size: .82rem; color: var(--fg2); line-height: 1.6;
+  }
+  .service-bullets li::before { content: '›'; color: var(--accent); font-size: 1rem; flex-shrink: 0; }
+
+  .service-badge {
+    display: inline-block; margin-top: 1rem;
+    font-size: .68rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    padding: .2rem .65rem; border-radius: 3px;
+    background: rgba(212,145,74,.1); color: var(--accent);
+  }
+  .service-badge.blue { background: rgba(74,143,212,.1); color: var(--accent2); }
+  .service-badge.green { background: rgba(74,212,154,.1); color: var(--accent3); }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(28px); }
@@ -459,6 +576,7 @@
     .skills-layout { grid-template-columns: 1fr; gap: 2.5rem; }
     .vision-grid { grid-template-columns: 1fr; }
     .exp-item { grid-template-columns: 1fr; gap: 1rem; }
+    .services-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
     .nav-links { display: none; }
@@ -475,6 +593,7 @@
 <nav id="navbar">
   <a href="#" class="nav-name">Sujan <span>Khadka</span></a>
   <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
@@ -484,6 +603,7 @@
   <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#services">Services</a>
   <a href="#experience">Experience</a>
   <a href="#skills">Skills</a>
   <a href="#education">Education</a>
@@ -515,7 +635,7 @@
       <span class="pill pill-b">UI/UX</span>
     </div>
     <div class="hero-cta fade-up d4">
-      <a href="mailto:sujankhd252@gmail.com" class="btn-accent">✉ Get In Touch</a>
+      <a href="/cdn-cgi/l/email-protection#2c5f59464d424744481e191e6c4b414d4540024f4341" class="btn-accent">✉ Get In Touch</a>
       <a href="#experience" class="btn-text">View Experience</a>
     </div>
   </div>
@@ -540,7 +660,7 @@
         </div>
         <div class="contact-row">
           <div class="contact-icon">✉</div>
-          <a href="mailto:sujankhd252@gmail.com">sujankhd252@gmail.com</a>
+          <a href="/cdn-cgi/l/email-protection#d2a1a7b8b3bcb9bab6e0e7e092b5bfb3bbbefcb1bdbf"><span class="__cf_email__" data-cfemail="cbb8bea1aaa5a0a3aff9fef98baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a>
         </div>
         <div class="contact-row">
           <div class="contact-icon">🎂</div>
@@ -563,6 +683,172 @@
         <div class="stat-label">Roles Held</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-section">
+  <div class="services-header">
+    <div class="section-label">What I Offer</div>
+    <h2 class="section-title">SERVICES</h2>
+    <p class="section-sub">From growing your brand online to building your web presence and guiding you through Nepal's mountains — here's how I can help.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- Social Media Marketing -->
+    <div class="service-card" style="--card-accent: var(--accent2)">
+      <div class="service-icon">📱</div>
+      <div class="service-name">Social Media Marketing</div>
+      <p class="service-desc">Full-service social media management across Facebook, TikTok, and Instagram — from content creation to paid campaigns and data-driven growth.</p>
+
+      <div class="service-platforms">
+        <button class="platform-btn active" onclick="switchPlatform(this,'smm','fb')">Facebook</button>
+        <button class="platform-btn" onclick="switchPlatform(this,'smm','tt')">TikTok</button>
+        <button class="platform-btn" onclick="switchPlatform(this,'smm','ig')">Instagram</button>
+      </div>
+
+      <div id="smm-fb" class="platform-details active">
+        <ul class="service-bullets">
+          <li>Boosting, promotion &amp; ad campaigns to drive product or service sales</li>
+          <li>Engaging content creation tailored to your page audience</li>
+          <li>Custom ad templates designed and posted on schedule</li>
+          <li>Market, data &amp; product analysis to optimise sales targets</li>
+          <li>On-page SEO optimisation for better organic reach</li>
+        </ul>
+        <span class="service-badge blue">Facebook Ads</span>
+      </div>
+      <div id="smm-tt" class="platform-details">
+        <ul class="service-bullets">
+          <li>Professional video shoots of your company and products</li>
+          <li>Video editing and scheduled posting on the platform</li>
+          <li>Trend-following strategy to grow your follower base</li>
+          <li>In-app product/service selling through TikTok Shop</li>
+        </ul>
+        <span class="service-badge blue">TikTok Marketing</span>
+      </div>
+      <div id="smm-ig" class="platform-details">
+        <ul class="service-bullets">
+          <li>Building a strong, cohesive Instagram brand profile</li>
+          <li>Reels, stories &amp; templates aligned with your product or service</li>
+          <li>Strategic hashtags and captions to maximise reach and attract customers</li>
+        </ul>
+        <span class="service-badge blue">Instagram Branding</span>
+      </div>
+    </div>
+
+    <!-- Website Development -->
+    <div class="service-card" style="--card-accent: var(--accent)">
+      <div class="service-icon">💻</div>
+      <div class="service-name">Website Development</div>
+      <p class="service-desc">Clean, fast, and purposeful websites — from simple landing pages to full-featured web applications tailored to your business needs.</p>
+      <ul class="service-bullets">
+        <li><strong style="color:var(--fg)">Static Website</strong> — Fast-loading, cost-effective sites ideal for portfolios, landing pages, and brochure sites with fixed content</li>
+        <li><strong style="color:var(--fg)">Dynamic Website</strong> — Interactive, database-driven sites with real-time updates, user login, and e-commerce capabilities</li>
+        <li><strong style="color:var(--fg)">Web App</strong> — Full-featured web applications with custom functionality, user management, and seamless cross-device experience</li>
+      </ul>
+      <span class="service-badge">HTML · CSS · JS</span>
+    </div>
+
+    <!-- AI & Automation -->
+    <div class="service-card" style="--card-accent: var(--accent3)">
+      <div class="service-icon">🤖</div>
+      <div class="service-name">AI &amp; Automation</div>
+      <p class="service-desc">Leverage the power of modern AI tools and no-code automation to eliminate repetitive tasks and scale your operations smarter.</p>
+      <ul class="service-bullets">
+        <li>Automate repetitive business tasks with n8n and AI-driven workflows</li>
+        <li>Integrate AI chatbots for customer support, lead capture, and FAQs</li>
+        <li>Streamline internal workflows to save time and boost team productivity</li>
+        <li>Custom AI-assisted content pipelines for marketing and reporting</li>
+      </ul>
+      <span class="service-badge green">n8n · Claude AI · ChatGPT</span>
+    </div>
+
+    <!-- Trek Guide -->
+    <div class="service-card" style="--card-accent: var(--accent3); grid-column: 1 / -1;">
+      <div style="display:flex;gap:.6rem;margin-bottom:1.25rem">
+        <div class="service-icon" style="margin-bottom:0">🏔️</div>
+        <div class="service-icon" style="margin-bottom:0">🧭</div>
+        <div class="service-icon" style="margin-bottom:0">🥾</div>
+        <div class="service-icon" style="margin-bottom:0">🗺️</div>
+      </div>
+      <div class="service-name">Trek Guide — Nepal</div>
+      <p class="service-desc">Licensed trek guide with hands-on experience across Nepal's most iconic routes. I handle logistics, safety, permits, and cultural interpretation so you can focus on the journey.</p>
+
+      <button class="trek-toggle" id="trekBtn" onclick="toggleTrek()">
+        <span>View All 50 Routes</span>
+        <span class="arrow">▼</span>
+      </button>
+
+      <div class="trek-table-wrap" id="trekTable">
+        <table class="trek-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Route</th>
+              <th>Max Height</th>
+              <th>District(s)</th>
+              <th>Best Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Chisapani Nagarkot</td><td>2,175m</td><td>Kathmandu, Bhaktapur</td><td>All year</td></tr>
+            <tr><td>2</td><td>Limbu Cultural Trail</td><td>2,700m</td><td>Taplejung, Terhathum</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>3</td><td>Rara Lake Trek</td><td>2,990m</td><td>Mugu, Jumla</td><td>Mar–May, Sep–Oct</td></tr>
+            <tr><td>4</td><td>Khaptad National Park</td><td>3,000m</td><td>Bajhang, Doti, Achham</td><td>Mar–May, Oct–Nov</td></tr>
+            <tr><td>5</td><td>Tamang Heritage Trail</td><td>3,165m</td><td>Rasuwa</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>6</td><td>Ghorepani Poon Hill</td><td>3,210m</td><td>Myagdi</td><td>All year (Best: Mar–Apr)</td></tr>
+            <tr><td>7</td><td>Helambu Trek</td><td>3,640m</td><td>Sindhupalchok</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>8</td><td>Khopra Danda</td><td>3,660m</td><td>Myagdi</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>9</td><td>Tsum Valley</td><td>3,700m</td><td>Gorkha</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>10</td><td>Upper Mustang</td><td>3,810m</td><td>Mustang</td><td>May–Oct</td></tr>
+            <tr><td>11</td><td>Ruby Valley</td><td>3,850m</td><td>Dhading, Rasuwa</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>12</td><td>Langtang Valley</td><td>3,870m</td><td>Rasuwa</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>13</td><td>Pikey Peak</td><td>4,065m</td><td>Solukhumbu</td><td>Mar–May, Sep–Dec</td></tr>
+            <tr><td>14</td><td>Annapurna Base Camp</td><td>4,130m</td><td>Kaski</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>15</td><td>Gosainkunda Lake</td><td>4,380m</td><td>Rasuwa</td><td>Mar–May, Aug–Oct</td></tr>
+            <tr><td>16</td><td>Mardi Himal</td><td>4,500m</td><td>Kaski</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>17</td><td>Dudhkunda Trek</td><td>4,560m</td><td>Solukhumbu</td><td>Mar–May, Aug–Nov</td></tr>
+            <tr><td>18</td><td>Rolwaling Valley</td><td>4,580m</td><td>Dolakha</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>19</td><td>Gokyo Lakes</td><td>4,750m</td><td>Solukhumbu</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>20</td><td>Makalu Base Camp</td><td>4,870m</td><td>Sankhuwasabha</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>21</td><td>Tilicho Lake</td><td>4,919m</td><td>Manang</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>22</td><td>Manaslu Circuit</td><td>5,106m</td><td>Gorkha</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>23</td><td>Kanchenjunga Base Camp</td><td>5,143m</td><td>Taplejung</td><td>Mar–May, Oct–Nov</td></tr>
+            <tr><td>24</td><td>Lower Dolpo</td><td>5,190m</td><td>Dolpa</td><td>Apr–Nov</td></tr>
+            <tr><td>25</td><td>Nar Phu Valley</td><td>5,306m</td><td>Manang</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>26</td><td>Upper Dolpo</td><td>5,360m</td><td>Dolpa</td><td>May–Oct</td></tr>
+            <tr><td>27</td><td>Dhaulagiri Circuit</td><td>5,360m</td><td>Myagdi, Mustang</td><td>Mar–May, Sep–Oct</td></tr>
+            <tr><td>28</td><td>Everest Base Camp</td><td>5,364m</td><td>Solukhumbu</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>29</td><td>Annapurna Circuit</td><td>5,416m</td><td>Manang, Mustang, Lamjung</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>30</td><td>Everest Three Passes</td><td>5,540m</td><td>Solukhumbu</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>31</td><td>Lalung La Pass</td><td>4,440m</td><td>Mustang</td><td>May–Oct</td></tr>
+            <tr><td>32</td><td>Sele La Pass</td><td>4,480m</td><td>Taplejung</td><td>Mar–May, Oct–Nov</td></tr>
+            <tr><td>33</td><td>Mirgin La Pass</td><td>4,480m</td><td>Taplejung</td><td>Mar–May, Oct–Nov</td></tr>
+            <tr><td>34</td><td>Lauribina La Pass</td><td>4,610m</td><td>Rasuwa</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>35</td><td>Jeng La Pass</td><td>5,090m</td><td>Dolpa</td><td>May–Oct</td></tr>
+            <tr><td>36</td><td>Larkya La Pass</td><td>5,106m</td><td>Gorkha</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>37</td><td>Ganja La Pass</td><td>5,121m</td><td>Rasuwa, Sindhupalchok</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>38</td><td>Baga La Pass</td><td>5,169m</td><td>Dolpa</td><td>May–Oct</td></tr>
+            <tr><td>39</td><td>Saldang La Pass</td><td>5,200m</td><td>Dolpa</td><td>May–Oct</td></tr>
+            <tr><td>40</td><td>Numa La Pass</td><td>5,238m</td><td>Dolpa</td><td>May–Oct</td></tr>
+            <tr><td>41</td><td>Kang La Pass</td><td>5,306m</td><td>Manang</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>42</td><td>Kang La (Upper Dolpo)</td><td>5,350m</td><td>Dolpa</td><td>May–Oct</td></tr>
+            <tr><td>43</td><td>Renjo La Pass</td><td>5,360m</td><td>Solukhumbu</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>44</td><td>Yala La Pass</td><td>5,400m</td><td>Rasuwa</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>45</td><td>Thorong La Pass</td><td>5,416m</td><td>Manang, Mustang</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>46</td><td>Cho La Pass</td><td>5,420m</td><td>Solukhumbu</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>47</td><td>Mesokanto La Pass</td><td>5,467m</td><td>Manang, Mustang</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>48</td><td>Kongma La Pass</td><td>5,535m</td><td>Solukhumbu</td><td>Mar–May, Sep–Nov</td></tr>
+            <tr><td>49</td><td>Tashi Lapcha Pass</td><td>5,755m</td><td>Dolakha, Solukhumbu</td><td>Apr–May, Oct–Nov</td></tr>
+            <tr><td>50</td><td>Ampu Lapcha Pass</td><td>5,845m</td><td>Solukhumbu</td><td>Apr–May, Oct–Nov</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <span class="service-badge green">50 Routes</span>
+      <span class="service-badge" style="margin-left:.4rem">Permits Included</span>
+    </div>
+
   </div>
 </section>
 
@@ -637,7 +923,7 @@
         <div class="exp-tag-row">
           <span class="exp-tag blue">Brand Strategy</span>
           <span class="exp-tag blue">Content Creation</span>
-          <span class="exp-tag blue">Analytics</span>
+          <span class="exp-tag">Analytics</span>
           <span class="exp-tag">CapCut</span>
         </div>
       </div>
@@ -838,7 +1124,7 @@
     <h2 class="section-title" style="margin-bottom:1rem">LET'S WORK<br>TOGETHER</h2>
     <p>Whether you need a sharp social media strategy, a digital campaign, a web project, or a knowledgeable trek guide across Nepal's Himalayas — let's talk.</p>
     <div class="contact-links">
-      <a href="mailto:sujankhd252@gmail.com" class="contact-link cl-accent">✉ Email Me</a>
+      <a href="/cdn-cgi/l/email-protection#d9aaacb3b8b7b2b1bdebeceb99beb4b8b0b5f7bab6b4" class="contact-link cl-accent">✉ Email Me</a>
       <a href="tel:+9779704791747" class="contact-link cl-outline">📞 +977 9704791747</a>
       <a href="#experience" class="contact-link cl-outline">View Resume ↑</a>
     </div>
@@ -849,12 +1135,12 @@
 <footer>
   <p>© 2026 Sujan Khadka — Kathmandu, Nepal</p>
   <div class="footer-socials">
-    <a href="mailto:sujankhd252@gmail.com">Email</a>
+    <a href="/cdn-cgi/l/email-protection#0675736c67686d6e6234333446616b676f6a2865696b">Email</a>
     <a href="tel:+9779704791747">Phone</a>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Mobile menu
   const ham = document.getElementById('ham');
   const mob = document.getElementById('mobileMenu');
@@ -872,12 +1158,28 @@
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.exp-item, .edu-card, .vision-card, .skill-category, .soft-item, .hobby-chip').forEach((el, i) => {
+  // Platform switcher for Social Media card
+  function switchPlatform(btn, card, id) {
+    const cardEl = btn.closest('.service-card');
+    cardEl.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+    cardEl.querySelectorAll('.platform-details').forEach(d => d.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(card + '-' + id).classList.add('active');
+  }
+
+  // Trek route accordion
+  function toggleTrek() {
+    const btn = document.getElementById('trekBtn');
+    const table = document.getElementById('trekTable');
+    btn.classList.toggle('open');
+    table.classList.toggle('open');
+    btn.querySelector('span').textContent = btn.classList.contains('open') ? 'Hide Routes' : 'View All 50 Routes';
+  }
+
+  document.querySelectorAll('.exp-item, .edu-card, .vision-card, .skill-category, .service-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
-    el.style.transition = `opacity .6s ease ${(i % 6) * 0.07}s, transform .6s ease ${(i % 6) * 0.07}s`;
-    // preserve hover transitions
-    el.addEventListener('mouseenter', () => {});
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
     io.observe(el);
   });
 </script>
