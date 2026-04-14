@@ -41,27 +41,107 @@
     mix-blend-mode: overlay;
   }
 
+  /* ── SCROLL PROGRESS LINE ── */
+  #scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    z-index: 200;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    transition: width 0.1s linear;
+  }
+
   /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5vw; height: 60px;
-    background: rgba(10,12,15,0.85);
-    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
   }
+
+  /* Water/Liquid glass nav background */
+  .nav-water-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: rgba(10,12,15,0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    overflow: hidden;
+  }
+  .nav-water-bg::before {
+    content: '';
+    position: absolute;
+    width: 200%; height: 200%;
+    top: -50%; left: -50%;
+    background:
+      radial-gradient(ellipse 30% 60% at 20% 50%, rgba(212,145,74,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 25% 50% at 80% 40%, rgba(74,143,212,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 20% 40% at 50% 80%, rgba(74,212,154,0.05) 0%, transparent 50%);
+    animation: waterShift 8s ease-in-out infinite alternate;
+  }
+  .nav-water-bg::after {
+    content: '';
+    position: absolute;
+    width: 150%; height: 150%;
+    top: -25%; left: -25%;
+    background:
+      radial-gradient(ellipse 20% 40% at 70% 30%, rgba(212,145,74,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 15% 30% at 30% 60%, rgba(74,143,212,0.04) 0%, transparent 45%);
+    animation: waterShift2 6s ease-in-out infinite alternate;
+  }
+  @keyframes waterShift {
+    0%   { transform: translate(0,0) rotate(0deg); }
+    100% { transform: translate(3%,2%) rotate(1deg); }
+  }
+  @keyframes waterShift2 {
+    0%   { transform: translate(0,0) rotate(0deg); }
+    100% { transform: translate(-2%,3%) rotate(-1deg); }
+  }
+
+  nav > * { position: relative; z-index: 1; }
+
   .nav-name {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.3rem; letter-spacing: .12em;
     color: var(--fg); text-decoration: none;
   }
   .nav-name span { color: var(--accent); }
+
+  .nav-center {
+    display: flex; align-items: center; gap: 0;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a {
     font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
     color: var(--fg2); text-decoration: none; transition: color .2s;
+    position: relative; padding-bottom: 3px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--accent);
+    transition: width .25s ease;
   }
   .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+  .nav-links a.active { color: var(--accent); }
+
+  .nav-right {
+    display: flex; align-items: center; gap: .75rem;
+    position: relative; z-index: 1;
+  }
+  .nav-resume {
+    font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    border: 1px solid var(--border); color: var(--fg2);
+    padding: .4rem .9rem; border-radius: 4px;
+    text-decoration: none; transition: border-color .2s, color .2s;
+    display: inline-flex; align-items: center; gap: .4rem;
+  }
+  .nav-resume:hover { border-color: var(--accent); color: var(--accent); }
   .nav-hire {
     font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     background: var(--accent); color: var(--bg);
@@ -97,7 +177,6 @@
       radial-gradient(ellipse 55% 70% at 85% 40%, rgba(212,145,74,.09) 0%, transparent 65%),
       radial-gradient(ellipse 40% 50% at 15% 70%, rgba(74,143,212,.07) 0%, transparent 60%);
   }
-  /* Mountain outline decoration */
   .hero-mountain-deco {
     position: absolute; bottom: 0; left: 0; right: 0; z-index: 0; pointer-events: none;
   }
@@ -187,7 +266,6 @@
     overflow: hidden;
   }
   .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .profile-name-block {}
   .profile-name {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.5rem; letter-spacing: .06em; color: var(--fg);
@@ -264,14 +342,11 @@
   }
   .exp-item:hover::before { transform: scaleY(1); }
 
-  .exp-meta {}
   .exp-period {
     font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
     color: var(--accent); margin-bottom: .4rem;
   }
   .exp-company { font-size: .82rem; color: var(--fg3); line-height: 1.5; }
-
-  .exp-body {}
   .exp-role {
     font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 600;
     color: var(--fg); margin-bottom: .85rem;
@@ -295,7 +370,6 @@
   /* ── SKILLS ── */
   .skills-section { background: var(--bg); }
   .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .skills-left {}
 
   .skill-category { margin-bottom: 2.5rem; }
   .skill-cat-label {
@@ -358,15 +432,14 @@
   }
   .edu-link a:hover { text-decoration: underline; }
 
-  /* ── ABOUT / VISION ── */
+  /* ── VISION ── */
   .vision-section {
     background: var(--bg);
     position: relative; overflow: hidden;
   }
   .vision-bg {
     position: absolute; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 60% 80% at 50% 100%, rgba(212,145,74,.06) 0%, transparent 65%);
+    background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(212,145,74,.06) 0%, transparent 65%);
   }
   .vision-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
   .vision-quote {
@@ -410,15 +483,15 @@
   }
   .contact-bg {
     position: absolute; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(212,145,74,.07) 0%, transparent 70%);
+    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(212,145,74,.07) 0%, transparent 70%);
   }
   .contact-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
   .contact-inner .section-title { text-align: center; }
   .contact-inner .section-label { justify-content: center; }
   .contact-inner .section-label::after { display: none; }
-  .contact-inner p { font-family: 'Lora', serif; font-style: italic; font-size: 1rem; color: var(--fg2); margin-bottom: 2.5rem; line-height: 1.75; }
-  .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+  .contact-inner > p { font-family: 'Lora', serif; font-style: italic; font-size: 1rem; color: var(--fg2); margin-bottom: 2.5rem; line-height: 1.75; }
+
+  .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
   .contact-link {
     display: inline-flex; align-items: center; gap: .6rem;
     font-size: .8rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
@@ -429,6 +502,51 @@
   .cl-accent:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,145,74,.35); }
   .cl-outline { border: 1px solid var(--border); color: var(--fg2); }
   .cl-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .cl-github {
+    background: rgba(240,237,230,.06); border: 1px solid var(--border); color: var(--fg2);
+  }
+  .cl-github:hover { border-color: var(--fg2); color: var(--fg); transform: translateY(-2px); }
+
+  /* Email copy row */
+  .email-copy-row {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: .6rem 1rem;
+    font-size: .85rem; color: var(--fg2);
+    margin-bottom: 2rem;
+  }
+  .email-copy-row a { color: var(--fg2); text-decoration: none; transition: color .2s; }
+  .email-copy-row a:hover { color: var(--accent); }
+  .copy-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 4px;
+    background: rgba(240,237,230,.08); border: 1px solid var(--border);
+    cursor: pointer; font-size: .75rem; color: var(--fg3);
+    transition: background .2s, color .2s;
+  }
+  .copy-btn:hover { background: rgba(212,145,74,.15); color: var(--accent); }
+  .copy-btn.copied { background: rgba(74,212,154,.15); color: var(--accent3); }
+
+  /* Download Resume block in contact */
+  .contact-resume-block {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem; margin-top: 0.5rem;
+  }
+  .contact-resume-block p {
+    font-size: .78rem; color: var(--fg3); margin-bottom: 1rem;
+    font-style: normal !important;
+  }
+  .contact-resume-block .btn-resume {
+    display: inline-flex; align-items: center; gap: .6rem;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--fg2); font-size: .8rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase;
+    padding: .75rem 1.5rem; border-radius: 4px; text-decoration: none;
+    transition: border-color .2s, color .2s, transform .15s;
+  }
+  .contact-resume-block .btn-resume:hover {
+    border-color: var(--accent); color: var(--accent); transform: translateY(-2px);
+  }
 
   /* ── FOOTER ── */
   footer {
@@ -492,7 +610,6 @@
     line-height: 1.7; margin-bottom: 1.25rem;
   }
 
-  /* Sub-platform tabs inside Social Media card */
   .service-platforms { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
   .platform-btn {
     font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
@@ -506,7 +623,6 @@
   .platform-details { display: none; }
   .platform-details.active { display: block; }
 
-  /* Trek table accordion */
   .trek-toggle {
     display: inline-flex; align-items: center; gap: .5rem;
     font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
@@ -525,10 +641,7 @@
   }
   .trek-table-wrap.open { max-height: 520px; overflow-y: auto; }
 
-  .trek-table {
-    width: 100%; border-collapse: collapse;
-    font-size: .75rem;
-  }
+  .trek-table { width: 100%; border-collapse: collapse; font-size: .75rem; }
   .trek-table th {
     font-size: .65rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
     color: var(--fg3); padding: .5rem .6rem; text-align: left;
@@ -558,6 +671,31 @@
   .service-badge.blue { background: rgba(74,143,212,.1); color: var(--accent2); }
   .service-badge.green { background: rgba(74,212,154,.1); color: var(--accent3); }
 
+  /* ── BACK TO TOP BUTTON ── */
+  #back-to-top {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 500;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--fg2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+    transition: opacity .3s, transform .2s, border-color .2s, color .2s, background .2s;
+    opacity: 0; pointer-events: none;
+  }
+  #back-to-top.visible { opacity: 1; pointer-events: auto; }
+  #back-to-top:hover {
+    border-color: var(--accent); color: var(--accent);
+    background: rgba(212,145,74,.1);
+    transform: translateY(-3px);
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(28px); }
@@ -577,10 +715,12 @@
     .vision-grid { grid-template-columns: 1fr; }
     .exp-item { grid-template-columns: 1fr; gap: 1rem; }
     .services-grid { grid-template-columns: 1fr; }
+    .nav-center { display: none; }
   }
   @media (max-width: 640px) {
     .nav-links { display: none; }
     .nav-hire { display: none; }
+    .nav-resume { display: none; }
     .hamburger { display: flex; }
     .soft-grid { grid-template-columns: 1fr; }
     .stat-row { grid-template-columns: repeat(3,1fr); }
@@ -589,18 +729,27 @@
 </head>
 <body>
 
+<!-- SCROLL PROGRESS BAR -->
+<div id="scroll-progress"></div>
+
 <!-- NAV -->
 <nav id="navbar">
+  <div class="nav-water-bg"></div>
   <a href="#" class="nav-name">Sujan <span>Khadka</span></a>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#vision">Vision</a></li>
-    <li><a href="#contact" class="nav-hire">Hire Me</a></li>
-  </ul>
-  <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  <div class="nav-center">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services" data-section="services">Services</a></li>
+      <li><a href="#experience" data-section="experience">Experience</a></li>
+      <li><a href="#skills" data-section="skills">Skills</a></li>
+      <li><a href="#education" data-section="education">Education</a></li>
+      <li><a href="#vision" data-section="vision">Vision</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-resume" download>↓ Resume</a>
+    <a href="#contact" class="nav-hire">Hire Me</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services">Services</a>
@@ -635,7 +784,7 @@
       <span class="pill pill-b">UI/UX</span>
     </div>
     <div class="hero-cta fade-up d4">
-      <a href="/cdn-cgi/l/email-protection#2c5f59464d424744481e191e6c4b414d4540024f4341" class="btn-accent">✉ Get In Touch</a>
+      <a href="mailto:withsujankhadka@gmail.com" class="btn-accent">✉ Get In Touch</a>
       <a href="#experience" class="btn-text">View Experience</a>
     </div>
   </div>
@@ -644,7 +793,7 @@
     <div class="profile-block">
       <div class="profile-header">
         <div class="profile-avatar">SK</div>
-        <div class="profile-name-block">
+        <div>
           <div class="profile-name">Sujan Khadka</div>
           <div class="profile-title">Digital Marketer & Part-time Trek Guide</div>
         </div>
@@ -660,7 +809,7 @@
         </div>
         <div class="contact-row">
           <div class="contact-icon">✉</div>
-          <a href="withsujankhadka@gmail.com"><span class="__cf_email__" data-cfemail="cbb8bea1aaa5a0a3aff9fef98baca6aaa2a7e5a8a4a6">withsujankhadka@gmail.com</span></a>
+          <a href="mailto:withsujankhadka@gmail.com">withsujankhadka@gmail.com</a>
         </div>
       </div>
     </div>
@@ -675,7 +824,7 @@
         <div class="stat-label">Languages</div>
       </div>
       <div class="stat-cell">
-        <div class="stat-num">4+</div>
+        <div class="stat-num">5+</div>
         <div class="stat-label">Roles Held</div>
       </div>
     </div>
@@ -691,19 +840,16 @@
   </div>
 
   <div class="services-grid">
-
     <!-- Social Media Marketing -->
     <div class="service-card" style="--card-accent: var(--accent2)">
       <div class="service-icon">📱</div>
       <div class="service-name">Social Media Marketing</div>
       <p class="service-desc">Full-service social media management across Facebook, TikTok, and Instagram — from content creation to paid campaigns and data-driven growth.</p>
-
       <div class="service-platforms">
         <button class="platform-btn active" onclick="switchPlatform(this,'smm','fb')">Facebook</button>
         <button class="platform-btn" onclick="switchPlatform(this,'smm','tt')">TikTok</button>
         <button class="platform-btn" onclick="switchPlatform(this,'smm','ig')">Instagram</button>
       </div>
-
       <div id="smm-fb" class="platform-details active">
         <ul class="service-bullets">
           <li>Boosting, promotion &amp; ad campaigns to drive product or service sales</li>
@@ -770,22 +916,14 @@
       </div>
       <div class="service-name">Trek Guide — Nepal</div>
       <p class="service-desc">Licensed trek guide with hands-on experience across Nepal's most iconic routes. I handle logistics, safety, permits, and cultural interpretation so you can focus on the journey.</p>
-
       <button class="trek-toggle" id="trekBtn" onclick="toggleTrek()">
         <span>View All 50 Routes</span>
         <span class="arrow">▼</span>
       </button>
-
       <div class="trek-table-wrap" id="trekTable">
         <table class="trek-table">
           <thead>
-            <tr>
-              <th>#</th>
-              <th>Route</th>
-              <th>Max Height</th>
-              <th>District(s)</th>
-              <th>Best Time</th>
-            </tr>
+            <tr><th>#</th><th>Route</th><th>Max Height</th><th>District(s)</th><th>Best Time</th></tr>
           </thead>
           <tbody>
             <tr><td>1</td><td>Chisapani Nagarkot</td><td>2,175m</td><td>Kathmandu, Bhaktapur</td><td>All year</td></tr>
@@ -844,7 +982,6 @@
       <span class="service-badge green">50 Routes</span>
       <span class="service-badge" style="margin-left:.4rem">Permits Included</span>
     </div>
-
   </div>
 </section>
 
@@ -853,45 +990,24 @@
   <div class="exp-header">
     <div class="section-label">Work Experience</div>
     <h2 class="section-title">WHAT I'VE<br>BUILT</h2>
-    <p class="section-sub">From shop floors in Kathmandu to mountain trails and brand campaigns — a career built on adaptability and grit.</p>
+    <p class="section-sub">From recruitment offices in Kathmandu to mountain trails and brand campaigns — a career built on adaptability and grit.</p>
   </div>
   <div class="exp-grid">
 
-    <!-- Tour Guide -->
+    <!-- Social Media Handler / Freelancer -->
     <div class="exp-item">
       <div class="exp-meta">
-        <div class="exp-period">Jun 2024 — Present</div>
-        <div class="exp-company">Nepal Trekking Planner<br>Thamel, Kathmandu</div>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">Tour Guide (Part-Time / Seasonal)</div>
-        <ul class="exp-bullets">
-          <li>Lead groups safely through Nepal's trekking trails — managing routes, timing, and altitude safety protocols.</li>
-          <li>Monitor trekkers' physical condition, prevent altitude-related issues, and coordinate emergency rescues if needed.</li>
-          <li>Arrange permits, accommodation, meals, transportation, and coordinate with porters and support staff.</li>
-          <li>Explain Himalayan geography, religious sites, local customs, and traditions relevant to each region visited.</li>
-        </ul>
-        <div class="exp-tag-row">
-          <span class="exp-tag green">Trek Leadership</span>
-          <span class="exp-tag green">Altitude Safety</span>
-          <span class="exp-tag green">Cultural Guide</span>
-          <span class="exp-tag green">Logistics</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Social Media Freelancer -->
-    <div class="exp-item">
-      <div class="exp-meta">
-        <div class="exp-period">Jan 2024 — Present</div>
+        <div class="exp-period">May 2024 — Present</div>
         <div class="exp-company">Freelance<br>Kathmandu, Nepal</div>
       </div>
       <div class="exp-body">
-        <div class="exp-role">Social Media Marketing (Part-Time / Freelancer)</div>
+        <div class="exp-role">Social Media Handler — Part Time / Freelancer</div>
         <ul class="exp-bullets">
-          <li>Design templates and produce video content for social media posts across multiple client accounts.</li>
-          <li>Develop engaging campaigns aligned with brand identity and product positioning.</li>
-          <li>Track reach, engagement, and campaign performance; deliver regular reports to clients.</li>
+          <li>Design and create templates and video content for social media posts across multiple client accounts.</li>
+          <li>Develop engaging posts, visuals, and campaigns that align with brand identity and product positioning.</li>
+          <li>Manage company accounts on Facebook, Instagram, TikTok, and more; schedule posts consistently.</li>
+          <li>Respond to comments, messages, and inquiries professionally and in a timely manner.</li>
+          <li>Track reach, engagement, and campaign performance; prepare regular reports for management.</li>
         </ul>
         <div class="exp-tag-row">
           <span class="exp-tag blue">Facebook Ads</span>
@@ -902,46 +1018,101 @@
       </div>
     </div>
 
-    <!-- Himalayan Distillery -->
+    <!-- Hospitality Recruiter -->
     <div class="exp-item">
       <div class="exp-meta">
-        <div class="exp-period">Jun 2021 — Nov 2023</div>
-        <div class="exp-company">Himalayan Distillery Ltd.<br>Jawalakhel, Lalitpur</div>
+        <div class="exp-period">May 2024 — Dec 2025</div>
+        <div class="exp-company">Freelance<br>Kathmandu, Nepal</div>
       </div>
       <div class="exp-body">
-        <div class="exp-role">Social Media Handler</div>
+        <div class="exp-role">Hospitality Recruiter — Part Time / Freelancer</div>
         <ul class="exp-bullets">
-          <li>Designed templates and produced video content aligned with brand identity and product positioning.</li>
-          <li>Managed company accounts on Facebook, Instagram, and TikTok with scheduled posting calendars.</li>
-          <li>Responded professionally to comments, messages, and inquiries to build audience trust.</li>
-          <li>Tracked reach, engagement, and campaign performance; prepared regular reports for management.</li>
+          <li>Sourced candidates for the Hospitality sector through referrals, existing contacts, and recruitment agents.</li>
+          <li>Arranged interviews with international clients for candidate selection processes.</li>
+          <li>Prepared all necessary legal documents required from Nepal for placement abroad.</li>
+          <li>Took full responsibility for candidates throughout their work journey abroad.</li>
+          <li>Handled and resolved any challenges or problems faced by candidates working overseas.</li>
         </ul>
         <div class="exp-tag-row">
-          <span class="exp-tag blue">Brand Strategy</span>
-          <span class="exp-tag blue">Content Creation</span>
-          <span class="exp-tag">Analytics</span>
-          <span class="exp-tag">CapCut</span>
+          <span class="exp-tag">Recruitment</span>
+          <span class="exp-tag">Hospitality</span>
+          <span class="exp-tag">Documentation</span>
+          <span class="exp-tag">Client Management</span>
         </div>
       </div>
     </div>
 
-    <!-- Bhat Bhateni -->
+    <!-- Educational Counsellor -->
     <div class="exp-item">
       <div class="exp-meta">
-        <div class="exp-period">Mar 2019 — May 2021</div>
-        <div class="exp-company">Bhat Bhateni Supermarket<br>Basundhara, Kathmandu</div>
+        <div class="exp-period">Mar 2022 — Apr 2024</div>
+        <div class="exp-company">Global Education &amp; Visa Service Pvt. Ltd.<br>Old-Baneshwor, Kathmandu</div>
       </div>
       <div class="exp-body">
-        <div class="exp-role">Salesman</div>
+        <div class="exp-role">Educational Counsellor — Full Time</div>
         <ul class="exp-bullets">
-          <li>Greeted customers, assisted in product selection, and ensured a high standard of customer satisfaction.</li>
-          <li>Executed upselling and cross-selling strategies; operated cash counters and supported billing.</li>
-          <li>Monitored stock levels, reported shortages and damaged items, and assisted during stock audits.</li>
+          <li>Provided personalized educational guidance and career counseling to students.</li>
+          <li>Assisted with university and college admissions processes, including application review and deadline tracking.</li>
+          <li>Stayed updated on educational trends, admission requirements, and scholarship opportunities.</li>
+          <li>Supported students in developing essential skills for academic success and personal growth.</li>
+          <li>Communicated effectively with parents and guardians regarding students' educational progress and planning.</li>
+          <li>Offered information and resources to help students make informed decisions about their academic and career paths.</li>
         </ul>
         <div class="exp-tag-row">
-          <span class="exp-tag">Customer Service</span>
-          <span class="exp-tag">Upselling</span>
-          <span class="exp-tag">Stock Management</span>
+          <span class="exp-tag">Career Counseling</span>
+          <span class="exp-tag">Admissions</span>
+          <span class="exp-tag">Student Support</span>
+          <span class="exp-tag green">Education</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recruitment Consultant -->
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">Jul 2020 — Feb 2022</div>
+        <div class="exp-company">Express Recruiter Nepal Pvt. Ltd.<br>Ranibari, Samakhushi, Kathmandu</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Recruitment Consultant — Full Time</div>
+        <ul class="exp-bullets">
+          <li>Maintained a positive office environment, handled difficult candidates, and provided career counselling.</li>
+          <li>Communicated with candidates and clients; responded to queries in a timely manner and monitored reviews.</li>
+          <li>Handled inquiries professionally and established positive relationships with agents, candidates, and organizations.</li>
+          <li>Coordinated and managed candidates throughout interview processes.</li>
+          <li>Worked collaboratively with internal teams and maintained open communication with management.</li>
+          <li>Prepared candidate details in Excel, created CVs in MS Word, and managed cash transactions.</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">Recruitment</span>
+          <span class="exp-tag">Client Relations</span>
+          <span class="exp-tag">MS Excel</span>
+          <span class="exp-tag">Career Counseling</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receptionist cum PR -->
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">Feb 2019 — Mar 2020</div>
+        <div class="exp-company">Omega International Pvt. Ltd.<br>Basundhara, Kathmandu</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Receptionist cum Public Relation Officer — Full Time</div>
+        <ul class="exp-bullets">
+          <li>Received visitors at the front desk by greeting, welcoming, directing, and announcing them appropriately.</li>
+          <li>Dealt with inquiries in a professional and courteous manner; answered calls and handled correspondence.</li>
+          <li>Built positive relationships with new clients and partner organizations.</li>
+          <li>Arranged and managed candidates at the time of interview; collaborated with internal teams.</li>
+          <li>Prepared candidate details in Excel, created profile CVs in MS Word, and handled cash transactions.</li>
+          <li>Managed office social media — replied to messages, analyzed data, and ran Facebook ad campaigns to fulfill hiring demands.</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">Public Relations</span>
+          <span class="exp-tag blue">Social Media</span>
+          <span class="exp-tag">Front Desk</span>
+          <span class="exp-tag">MS Word & Excel</span>
         </div>
       </div>
     </div>
@@ -1119,10 +1290,27 @@
     <div class="section-label">Get In Touch</div>
     <h2 class="section-title" style="margin-bottom:1rem">LET'S WORK<br>TOGETHER</h2>
     <p>Whether you need a sharp social media strategy, a digital campaign, a web project, or a knowledgeable trek guide across Nepal's Himalayas — let's talk.</p>
+
+    <!-- Email with copy button -->
+    <div class="email-copy-row">
+      <span>✉</span>
+      <a href="mailto:withsujankhadka@gmail.com">withsujankhadka@gmail.com</a>
+      <button class="copy-btn" id="copyEmailBtn" onclick="copyEmail()" title="Copy email">⎘</button>
+    </div>
+
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#d9aaacb3b8b7b2b1bdebeceb99beb4b8b0b5f7bab6b4" class="contact-link cl-accent">✉ Email Me</a>
+      <a href="mailto:withsujankhadka@gmail.com" class="contact-link cl-accent">✉ Email Me</a>
       <a href="tel:+9779704791747" class="contact-link cl-outline">📞 +977 9704791747</a>
-      <a href="#experience" class="contact-link cl-outline">View Resume ↑</a>
+      <a href="https://github.com/sujan-2056" target="_blank" class="contact-link cl-github">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <!-- Download Resume block -->
+    <div class="contact-resume-block">
+      <p>Full CV · Download or open in browser · Ctrl+P to save as PDF</p>
+      <a href="#" class="btn-resume" download>↓ Download Resume</a>
     </div>
   </div>
 </section>
@@ -1131,19 +1319,57 @@
 <footer>
   <p>© 2026 Sujan Khadka — Kathmandu, Nepal</p>
   <div class="footer-socials">
-    <a href="/cdn-cgi/l/email-protection#0675736c67686d6e6234333446616b676f6a2865696b">Email</a>
+    <a href="mailto:withsujankhadka@gmail.com">Email</a>
     <a href="tel:+9779704791747">Phone</a>
+    <a href="https://github.com/sujan-2056" target="_blank">GitHub</a>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<!-- BACK TO TOP -->
+<a href="#" id="back-to-top" title="Back to top">↑</a>
+
+<script>
   // Mobile menu
   const ham = document.getElementById('ham');
   const mob = document.getElementById('mobileMenu');
   ham.addEventListener('click', () => mob.classList.toggle('open'));
   mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mob.classList.remove('open')));
 
-  // Scroll-triggered fade-up for all major blocks
+  // ── SCROLL PROGRESS BAR ──
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }, { passive: true });
+
+  // ── BACK TO TOP BUTTON ──
+  const backToTop = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) backToTop.classList.add('visible');
+    else backToTop.classList.remove('visible');
+  }, { passive: true });
+
+  // ── ACTIVE NAV LINK (section highlight + underline) ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('data-section') === id) link.classList.add('active');
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(section => sectionObserver.observe(section));
+
+  // ── SCROLL-TRIGGERED FADE-UP ──
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -1154,7 +1380,14 @@
     });
   }, { threshold: 0.1 });
 
-  // Platform switcher for Social Media card
+  document.querySelectorAll('.exp-item, .edu-card, .vision-card, .skill-category, .service-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    io.observe(el);
+  });
+
+  // ── PLATFORM SWITCHER ──
   function switchPlatform(btn, card, id) {
     const cardEl = btn.closest('.service-card');
     cardEl.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
@@ -1163,7 +1396,7 @@
     document.getElementById(card + '-' + id).classList.add('active');
   }
 
-  // Trek route accordion
+  // ── TREK ACCORDION ──
   function toggleTrek() {
     const btn = document.getElementById('trekBtn');
     const table = document.getElementById('trekTable');
@@ -1172,12 +1405,31 @@
     btn.querySelector('span').textContent = btn.classList.contains('open') ? 'Hide Routes' : 'View All 50 Routes';
   }
 
-  document.querySelectorAll('.exp-item, .edu-card, .vision-card, .skill-category, .service-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity .6s ease, transform .6s ease';
-    io.observe(el);
-  });
+  // ── COPY EMAIL ──
+  function copyEmail() {
+    const email = 'withsujankhadka@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+      const btn = document.getElementById('copyEmailBtn');
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '⎘';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = email;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const btn = document.getElementById('copyEmailBtn');
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '⎘'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
 </script>
 </body>
 </html>
